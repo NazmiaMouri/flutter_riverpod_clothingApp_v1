@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ecommerce/models/dress.dart';
 import 'package:flutter_firebase_ecommerce/repository/product_repository.dart';
@@ -9,6 +11,7 @@ class Product extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(jsonEncode(dress));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -33,7 +36,7 @@ class Product extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Text(dress.price!),
+          child: Text(dress.price?.toString() ?? '0'),
         )
       ],
     );

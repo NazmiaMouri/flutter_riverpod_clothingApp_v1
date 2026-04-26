@@ -11,10 +11,10 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  CookieManager.instance.getCookie();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await CookieManager.instance.getCookie();
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
   ));
@@ -30,22 +30,22 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool checkLoggedIn() {
-    bool loggedIn = false;
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      if (user == null) {
-        setState(() {
-          loggedIn = false;
-        });
-      } else {
-        setState(() {
-          loggedIn = true;
-        });
-      }
-    });
+  // bool checkLoggedIn() {
+  //   bool loggedIn = false;
+  //   FirebaseAuth.instance.authStateChanges().listen((User? user) {
+  //     if (user == null) {
+  //       setState(() {
+  //         loggedIn = false;
+  //       });
+  //     } else {
+  //       setState(() {
+  //         loggedIn = true;
+  //       });
+  //     }
+  //   });
 
-    return loggedIn;
-  }
+  //   return loggedIn;
+  // }
 
   // This widget is the root of your application.
   @override

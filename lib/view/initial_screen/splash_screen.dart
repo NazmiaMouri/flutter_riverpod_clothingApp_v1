@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ecommerce/repository/auth_repository.dart';
@@ -20,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     authRepo.auth().then((res) {
       var data = res;
-      print(data);
+      print(jsonEncode( data));
       if (data.email != null) {
         Navigator.pushNamed(context, '/home');
       } else {

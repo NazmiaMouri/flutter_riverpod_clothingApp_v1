@@ -14,7 +14,10 @@ class CookieManager extends Interceptor {
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     if (response.statusCode == 200) {
       if (response.headers.map['set-cookie'] != null) {
-        _saveCookie(response.headers.map['set-cookie']![0]);
+        var cookie_string = response.headers.map['set-cookie']?[0];
+        var cookie = cookie_string!.split(';').first.split('=').last;
+        print('=================================Cookie: $cookie');
+        _saveCookie(cookie);
       }
     } else if (response.statusCode == 401) {
       _clearCookie();
