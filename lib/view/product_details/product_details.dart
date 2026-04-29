@@ -1,11 +1,17 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_ecommerce/models/dress.dart';
 import 'package:flutter_firebase_ecommerce/models/rating.dart';
+import 'package:flutter_firebase_ecommerce/repository/product_repository.dart';
 import 'package:flutter_firebase_ecommerce/resources/colors.dart';
 import 'package:flutter_firebase_ecommerce/resources/enums.dart';
 import 'package:flutter_firebase_ecommerce/view/widgets/filled_button.dart';
+import 'package:go_router/go_router.dart';
 
 class ViewProductDetail extends StatefulWidget {
-  const ViewProductDetail({super.key});
+  final Dress dress;
+  const ViewProductDetail({super.key, required this.dress});
 
   @override
   State<ViewProductDetail> createState() => _ViewProductDetailState();
@@ -22,8 +28,19 @@ class _ViewProductDetailState extends State<ViewProductDetail> {
 
   double ratingNumber = 0;
   int quantity = 1;
+  late Dress dress;
 
   Sizes selection = Sizes.small;
+  bool isFavorite = false;
+
+  @override
+  void initState() {
+    super.initState();
+    dress = widget.dress;
+    isFavorite = dress.favourite;
+    ratingNumber = dress.rating ?? 1;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -38,8 +55,11 @@ class _ViewProductDetailState extends State<ViewProductDetail> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const InkWell(
-                      child: Padding(
+                    InkWell(
+                      onTap: () {
+                        context.pop();
+                      },
+                      child: const Padding(
                         padding: EdgeInsets.only(right: 20.0),
                         child: Icon(
                           Icons.arrow_back,
@@ -53,9 +73,18 @@ class _ViewProductDetailState extends State<ViewProductDetail> {
                         shape: BoxShape.circle,
                         color: Colors.white,
                       ),
-                      child: const InkWell(
+                      child: InkWell(
+                        onTap: () {
+                          // Handle favorite action
+                          setState(() {
+                            isFavorite = !isFavorite;
+                          });
+                        },
                         child: Icon(
-                          Icons.favorite_border_outlined,
+                          isFavorite
+                              ? Icons.favorite
+                              : Icons.favorite_border_outlined,
+                          color: isFavorite ? Colors.red : Colors.black,
                         ),
                       ),
                     )
@@ -63,7 +92,7 @@ class _ViewProductDetailState extends State<ViewProductDetail> {
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.9,
+                height: MediaQuery.of(context).size.height * 0.95,
                 child: DraggableScrollableSheet(
                     initialChildSize: 0.5, // Initial size of the sheet
                     minChildSize:
@@ -86,60 +115,53 @@ class _ViewProductDetailState extends State<ViewProductDetail> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Row(
+                              Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Name',
-                                    style: TextStyle(fontSize: 24),
+                                    dress.title!,
+                                    style: const TextStyle(fontSize: 24),
                                   ),
-                                  Text('Price', style: TextStyle(fontSize: 24))
+                                  Text(
+                                    dress.price?.toString() ?? '0',
+                                    style: const TextStyle(fontSize: 24),
+                                  )
                                 ],
-                              ),
-                              SizedBox(
-                                height: 10,
                               ),
                               Row(
                                 children: [
-                                  Row(
-                                    children: ratingStar
-                                        .map(
-                                          (item) => InkWell(
-                                            onTap: () {
-                                              setState(() {
-                                                ratingNumber = ratingStar
-                                                    .indexOf(item)
-                                                    .toDouble();
-                                              });
-                                            },
-                                            child: Icon(
-                                              Icons.star_outlined,
-                                              color: item.rated
-                                                  ? rating
-                                                  : Colors.black12,
-                                            ),
-                                          ),
+                                  ratingNumber >= 2
+                                      ? Icon(Icons.star_outlined, color: rating)
+                                      : Icon(Icons.star_outline_outlined,
+                                          color: rating),
+                                  ratingNumber >= 3
+                                      ? Text(
+                                          '$ratingNumber',
+                                          style: const TextStyle(fontSize: 15),
                                         )
-                                        .toList(),
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    '($ratingNumber)',
-                                    style: TextStyle(fontSize: 15),
+                                      : Text(
+                                          'No ratings',
+                                          style: const TextStyle(fontSize: 15),
+                                        ),
+                                  InkWell(
+                                    child: Text(
+                                      dress.reviews != null
+                                          ? ' (${dress.reviews!.length} reviews)'
+                                          : ' (0 review)',
+                                      style: const TextStyle(fontSize: 15),
+                                    ),
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Container(
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.black),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20))),
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(20))),
                                 child: IntrinsicHeight(
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -148,10 +170,10 @@ class _ViewProductDetailState extends State<ViewProductDetail> {
                                         onTap: () => setState(() {
                                           quantity -= 1;
                                         }),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
+                                        child: const Padding(
+                                          padding: EdgeInsets.symmetric(
                                               horizontal: 10.0),
-                                          child: const Icon(
+                                          child: Icon(
                                             Icons.remove_outlined,
                                           ),
                                         ),
@@ -168,7 +190,7 @@ class _ViewProductDetailState extends State<ViewProductDetail> {
                                             horizontal: 10.0),
                                         child: Text(
                                           '$quantity',
-                                          style: TextStyle(fontSize: 24),
+                                          style: const TextStyle(fontSize: 24),
                                         ),
                                       ),
                                       const VerticalDivider(
@@ -182,10 +204,10 @@ class _ViewProductDetailState extends State<ViewProductDetail> {
                                         onTap: () => setState(() {
                                           quantity += 1;
                                         }),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
+                                        child: const Padding(
+                                          padding: EdgeInsets.symmetric(
                                               horizontal: 10.0),
-                                          child: const Icon(
+                                          child: Icon(
                                             Icons.add_outlined,
                                           ),
                                         ),
@@ -194,15 +216,15 @@ class _ViewProductDetailState extends State<ViewProductDetail> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               const Text('DESCRIPTION'),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               const Text('Paragraph'),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               const Text('SELECT SIZE'),
@@ -227,10 +249,10 @@ class _ViewProductDetailState extends State<ViewProductDetail> {
                                   });
                                 },
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
-                              Row(
+                              const Row(
                                 children: [
                                   Icon(
                                     Icons.straighten,
@@ -245,7 +267,7 @@ class _ViewProductDetailState extends State<ViewProductDetail> {
                                   )
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               SizedBox(
@@ -254,8 +276,7 @@ class _ViewProductDetailState extends State<ViewProductDetail> {
                                     context: context,
                                     buttonName: 'ADD TO CART',
                                     buttonColour: Colors.black,
-                                    buttonAction: () =>
-                                        Navigator.pushNamed(context, '/home')),
+                                    buttonAction: () => context.push('/home')),
                               )
                             ],
                           ),
@@ -270,3 +291,5 @@ class _ViewProductDetailState extends State<ViewProductDetail> {
     ));
   }
 }
+
+mixin favourite {}

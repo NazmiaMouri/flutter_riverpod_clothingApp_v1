@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_firebase_ecommerce/network/cookie_manager.dart';
 import 'package:flutter_firebase_ecommerce/resources/colors.dart';
-import 'package:flutter_firebase_ecommerce/routes/named_routes.dart';
+import 'package:flutter_firebase_ecommerce/routes/go_routes.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'firebase_options.dart';
@@ -50,10 +50,9 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      routes: namedRoutes,
-      initialRoute: '/splash',
+      routerConfig: router,
       theme: _buildTheme(context),
     );
   }

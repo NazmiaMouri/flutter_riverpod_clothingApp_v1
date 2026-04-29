@@ -3,6 +3,7 @@ import 'package:flutter_firebase_ecommerce/repository/auth_repository.dart';
 import 'package:flutter_firebase_ecommerce/resources/colors.dart';
 import 'package:flutter_firebase_ecommerce/view/widgets/circle_image.dart';
 import 'package:flutter_firebase_ecommerce/view/widgets/list_tile.dart';
+import 'package:go_router/go_router.dart';
 
 class DrawerScreen extends StatelessWidget {
   const DrawerScreen({required this.closeEndDrawer, super.key});
@@ -49,11 +50,11 @@ class DrawerScreen extends StatelessWidget {
               height: 10,
             ),
             drawerItems(Icons.shopping_basket_outlined, 'Orders',
-                () => {Navigator.pushNamed(context, '/order')}),
+                () => {context.push('/order')}),
             drawerItems(Icons.favorite_border_outlined, 'Wishlist',
-                () => {Navigator.pushNamed(context, '/wishlist')}),
+                () => {context.push('/wishlist')}),
             drawerItems(Icons.place_outlined, 'Delivery Address',
-                () => {Navigator.pushNamed(context, '/address')}),
+                () => {context.push('/address')}),
             drawerItems(Icons.payment_outlined, 'Payment Methods', () => {}),
             drawerItems(Icons.sell_outlined, 'Promo Card', () => {}),
             drawerItems(
@@ -68,7 +69,7 @@ class DrawerScreen extends StatelessWidget {
                 'LOG OUT',
                 () => {
                       authRepo.logout().then((value) =>
-                          Navigator.pushNamed(context, '/loginWithEmail')),
+                         context.push('/loginWithEmail')),
                     }),
           ],
         ),

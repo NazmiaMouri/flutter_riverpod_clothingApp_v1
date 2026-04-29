@@ -15,9 +15,9 @@ class ProductRepository {
     return _apiRequest.getAllDress();
   }
 
-  Future<Dress> getDress() {
-    return _apiRequest.getDress();
-  }
+  // Future<Dress> getDress(String productId) {
+  //   return _apiRequest.getDress(productId);
+  // }
 }
 
 final productRepo = ProductRepository();

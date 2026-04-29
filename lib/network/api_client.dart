@@ -25,6 +25,6 @@ abstract class RestClient {
   @GET("/dresses")
   Future<List<Dress>> getAllDress();
 
-  @GET("/dresse")
-  Future<Dress> getDress();
+  // @GET("/dresses/{productId}")
+  // Future<Dress> getDress(@Path("productId") String productId);
 }

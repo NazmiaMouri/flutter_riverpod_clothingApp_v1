@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ecommerce/view/widgets/filled_button.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 
@@ -50,7 +51,7 @@ class EditAddress extends StatelessWidget {
                 child: InkWell(
                   child: Icon(Icons.arrow_back),
                   onTap: () {
-                    Navigator.pop(context);
+                    context.pop();
                   },
                 )),
           ),

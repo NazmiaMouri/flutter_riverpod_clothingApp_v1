@@ -3,6 +3,7 @@ import 'package:flutter_firebase_ecommerce/resources/colors.dart';
 import 'package:flutter_firebase_ecommerce/view/widgets/filled_button.dart';
 import 'package:flutter_firebase_ecommerce/view/widgets/outlined_button.dart';
 import 'package:flutter_firebase_ecommerce/view/widgets/font.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class StartUpScreen extends StatelessWidget {
@@ -44,8 +45,7 @@ class StartUpScreen extends StatelessWidget {
                 context: context,
                 buttonName: 'Login',
                 buttonColour: Colors.black,
-                buttonAction: () =>
-                    Navigator.pushNamed(context, '/loginWithEmail')),
+                buttonAction: () => context.go('/loginWithEmail')),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -59,7 +59,7 @@ class StartUpScreen extends StatelessWidget {
                   Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Text(
-                         'or',
+                        'or',
                         style: const TextStyle(fontSize: 18),
                       )),
                   SizedBox(
@@ -72,7 +72,7 @@ class StartUpScreen extends StatelessWidget {
                 context: context,
                 buttonName: 'Register',
                 buttonColour: Colors.black,
-                buttonAction: () => Navigator.pushNamed(context, '/register'))
+                buttonAction: () => context.go('/register'))
           ]),
         ),
       ),

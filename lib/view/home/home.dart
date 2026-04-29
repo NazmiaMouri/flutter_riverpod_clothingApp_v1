@@ -4,6 +4,7 @@ import 'package:flutter_firebase_ecommerce/view/home/drawer.dart';
 import 'package:flutter_firebase_ecommerce/view/tab_view/popular_items.dart';
 import 'package:flutter_firebase_ecommerce/view/widgets/circle_image.dart';
 import 'package:flutter_firebase_ecommerce/view/widgets/font.dart';
+import 'package:go_router/go_router.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -17,7 +18,7 @@ class Home extends StatelessWidget {
     }
 
     void closeEndDrawer() {
-      Navigator.of(context).pop();
+     context.pop();
     }
 
     return DefaultTabController(

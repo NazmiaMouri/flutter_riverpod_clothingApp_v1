@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ecommerce/repository/auth_repository.dart';
 import 'package:flutter_firebase_ecommerce/resources/colors.dart';
+import 'package:go_router/go_router.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -21,11 +22,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
     authRepo.auth().then((res) {
       var data = res;
-      print(jsonEncode( data));
+      print(jsonEncode(data));
       if (data.email != null) {
-        Navigator.pushNamed(context, '/home');
+        context.go('/home');
       } else {
-        Navigator.pushNamed(context, '/startup');
+        context.go('/startup');
       }
     });
 

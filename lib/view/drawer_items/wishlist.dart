@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ecommerce/view/widgets/filled_button.dart';
+import 'package:go_router/go_router.dart';
 
 class Wishlist extends StatefulWidget {
   const Wishlist({super.key});
@@ -27,7 +28,7 @@ Widget favTile(BuildContext context) {
   return InkWell(
       child: Container(
         padding: const EdgeInsets.all(10),
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: Colors.white,
@@ -51,16 +52,16 @@ Widget favTile(BuildContext context) {
                   fit: BoxFit.contain,
                   width: 150,
                 ),
-                Column(
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [Text('product name'), Text('stock status')],
                 ),
-                Text('Amount')
+                const Text('Amount')
               ],
             ),
-            Align(
-              child: Icon(Icons.arrow_right),
+            const Align(
               alignment: Alignment.topRight,
+              child: Icon(Icons.arrow_right),
             )
           ],
         ),
@@ -76,20 +77,24 @@ Widget favTile(BuildContext context) {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Checkout", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                        const Text(
+                          "Checkout",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
                         InkWell(
-                          child: Icon(Icons.close),
-                          onTap: () => Navigator.pop(context),
+                          child: const Icon(Icons.close),
+                          onTap: () => context.pop(),
                         )
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Delivery"),
+                        const Text("Delivery"),
                         Directionality(
                           textDirection: TextDirection.rtl,
                           child: TextButton.icon(
@@ -104,11 +109,11 @@ Widget favTile(BuildContext context) {
                         ),
                       ],
                     ),
-                    Divider(),
+                    const Divider(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Payment"),
+                        const Text("Payment"),
                         Directionality(
                           textDirection: TextDirection.rtl,
                           child: TextButton.icon(
@@ -123,11 +128,11 @@ Widget favTile(BuildContext context) {
                         ),
                       ],
                     ),
-                    Divider(),
+                    const Divider(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Promo Code"),
+                        const Text("Promo Code"),
                         Directionality(
                           textDirection: TextDirection.rtl,
                           child: TextButton.icon(
@@ -142,11 +147,11 @@ Widget favTile(BuildContext context) {
                         ),
                       ],
                     ),
-                    Divider(),
+                    const Divider(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Total Cost"),
+                        const Text("Total Cost"),
                         Directionality(
                           textDirection: TextDirection.rtl,
                           child: TextButton.icon(
@@ -161,21 +166,25 @@ Widget favTile(BuildContext context) {
                         ),
                       ],
                     ),
-                    Divider(),
-                    SizedBox(height: 20,),
-                    Text(
+                    const Divider(),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Text(
                       'By placing an order you agree to our ',
                     ),
-                    Text(
+                    const Text(
                       'Terms And Conditions.',
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     filledButton(
-                          context: context,
-                          buttonName: 'Place Order',
-                          buttonColour: Colors.black,
-                          buttonAction: ()=>Navigator.pushNamed(context,  '/home')
-                        )
+                        context: context,
+                        buttonName: 'Place Order',
+                        buttonColour: Colors.black,
+                        buttonAction: () =>
+                            context.push( '/home'))
                   ]));
             });
       });

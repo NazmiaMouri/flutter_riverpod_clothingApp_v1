@@ -3,6 +3,7 @@ import 'package:flutter_firebase_ecommerce/models/dress.dart';
 import 'package:flutter_firebase_ecommerce/repository/product_repository.dart';
 import 'package:flutter_firebase_ecommerce/view/widgets/product_tile.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:go_router/go_router.dart';
 
 class ProductList extends StatefulWidget {
   const ProductList({super.key});
@@ -23,7 +24,7 @@ class _ProductListState extends State<ProductList> {
               size: 50.0,
             );
           } else if (snapshot.hasError || snapshot.data.isEmpty) {
-            return SpinKitRotatingCircle(
+            return const SpinKitRotatingCircle(
               color: Colors.white,
               size: 50.0,
             );
@@ -39,8 +40,7 @@ class _ProductListState extends State<ProductList> {
                 itemBuilder: (_, int index) {
                   final dress = dresses[index];
                   return InkWell(
-                      onTap: () =>
-                          Navigator.pushNamed(context, '/productDetail'),
+                      onTap: () => context.push('/productDetail', extra: dress),
                       child: Product(
                         dress: dress,
                       ));

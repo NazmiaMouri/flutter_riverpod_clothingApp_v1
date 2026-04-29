@@ -9,6 +9,7 @@ import 'package:flutter_firebase_ecommerce/view/widgets/filled_button.dart';
 import 'package:flutter_firebase_ecommerce/view/widgets/font.dart';
 import 'package:flutter_firebase_ecommerce/view/widgets/toast.dart';
 import 'package:flutter_firebase_ecommerce/view_model/firebase/firebase_db.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tap_debouncer/tap_debouncer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -95,7 +96,7 @@ class _RegisterState extends State<Register> {
                       ),
                       InkWell(
                           onTap: () =>
-                              Navigator.pushNamed(context, '/loginWithEmail'),
+                          context.go('/loginWithEmail'),
                           child: Text('Log in',
                               style: TextStyle(
                                 decoration: TextDecoration.underline,
@@ -202,7 +203,7 @@ class _RegisterState extends State<Register> {
                       authRepo.signUp(user);
 
                       if (!context.mounted) return;
-                      Navigator.pushNamed(context, '/loginWithEmail');
+                      context.go('/loginWithEmail');
                     } else {
                       ShowToast.errorToast(
                           'Password and confirm password is not identical');

@@ -11,6 +11,7 @@ import 'package:flutter_firebase_ecommerce/view/widgets/font.dart';
 import 'package:flutter_firebase_ecommerce/view/widgets/toast.dart';
 import 'package:flutter_firebase_ecommerce/view_model/firebase/user_data_handle.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginWithEmail extends StatefulWidget {
   const LoginWithEmail({super.key});
@@ -173,7 +174,7 @@ class _LoginWithEmailState extends State<LoginWithEmail> {
                                   var data = jsonDecode(value);
                                   print(data);
                                   if (data['user'] != null) {
-                                    Navigator.pushNamed(context, '/home');
+                                    context.go('/home');
                                   }
                                 });
                                 //   buttonAction: () async {
@@ -207,8 +208,7 @@ class _LoginWithEmailState extends State<LoginWithEmail> {
                           style: TextStyle(color: textAsh),
                         ),
                         InkWell(
-                            onTap: () =>
-                                Navigator.pushNamed(context, '/register'),
+                            onTap: () => context.go('/register'),
                             child: Text('Create an account',
                                 style: TextStyle(
                                   decoration: TextDecoration.underline,
