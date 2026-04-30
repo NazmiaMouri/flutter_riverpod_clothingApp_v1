@@ -10,6 +10,7 @@ import 'package:flutter_firebase_ecommerce/view/home/home.dart';
 import 'package:flutter_firebase_ecommerce/view/initial_screen/splash_screen.dart';
 import 'package:flutter_firebase_ecommerce/view/initial_screen/startup_screen.dart';
 import 'package:flutter_firebase_ecommerce/view/product_details/product_details.dart';
+import 'package:flutter_firebase_ecommerce/view/user/cart_list.dart';
 
 import 'package:go_router/go_router.dart';
 
@@ -41,6 +42,16 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/home',
       builder: (context, state) => const Home(),
+       routes: [
+        GoRoute(
+          path: 'cart',
+          builder: (context, state) => CartList(),
+        ),
+        // GoRoute(
+        //   path: 'settings',
+        //   builder: (context, state) => SettingsScreen(),
+        // ),
+      ],
     ),
     GoRoute(
       path: '/productDetail',

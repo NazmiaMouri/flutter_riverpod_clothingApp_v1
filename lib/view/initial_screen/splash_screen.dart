@@ -22,12 +22,34 @@ class _SplashScreenState extends State<SplashScreen> {
 
     authRepo.auth().then((res) {
       var data = res;
+      print('Auth Result:');
+      print(res);
       print(jsonEncode(data));
       if (data.email != null) {
         context.go('/home');
       } else {
         context.go('/startup');
       }
+    }).catchError((error) async {
+      await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          title: const Text('Session Expired'),
+          content: const Text(
+            'Your authorization has failed. Please log in again.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+            context.pop(); // close dialog
+                context.go('/loginWithEmail'); // redirect to login
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
     });
 
     super.initState();

@@ -26,6 +26,14 @@ class CookieManager extends Interceptor {
   }
 
   @override
+  void onError(DioException err, ErrorInterceptorHandler handler) async {
+    if (err.response != null && err.response!.statusCode == 401) {
+      _clearCookie();
+    }
+    handler.next(err);
+  }
+
+  @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     options.headers['Cookie'] = _cookie;
     return super.onRequest(options, handler);

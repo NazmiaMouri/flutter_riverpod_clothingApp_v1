@@ -18,7 +18,7 @@ class Home extends StatelessWidget {
     }
 
     void closeEndDrawer() {
-     context.pop();
+      context.pop();
     }
 
     return DefaultTabController(
@@ -63,7 +63,8 @@ class Home extends StatelessWidget {
                   ),
                 ),
               ),
-              const InkWell(
+              InkWell(
+                onTap: () => context.go('/home/cart'),
                 child: Padding(
                   padding: EdgeInsets.only(right: 20.0),
                   child: Icon(
