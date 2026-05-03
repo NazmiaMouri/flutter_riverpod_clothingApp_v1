@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_ecommerce/network/cookie_manager.dart';
 import 'package:flutter_firebase_ecommerce/repository/auth_repository.dart';
 import 'package:flutter_firebase_ecommerce/resources/colors.dart';
 import 'package:flutter_firebase_ecommerce/view/widgets/circle_image.dart';
@@ -68,8 +69,9 @@ class DrawerScreen extends StatelessWidget {
                 Icons.logout_outlined,
                 'LOG OUT',
                 () => {
-                      authRepo.logout().then((value) =>
-                         context.push('/loginWithEmail')),
+                      authRepo
+                          .logout()
+                          .then((value) => context.go('/loginWithEmail'))
                     }),
           ],
         ),

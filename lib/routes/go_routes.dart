@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ecommerce/models/dress.dart';
 import 'package:flutter_firebase_ecommerce/view/auth/login_with_email.dart';
 import 'package:flutter_firebase_ecommerce/view/auth/login_with_phoneNumber.dart';
@@ -15,8 +16,9 @@ import 'package:flutter_firebase_ecommerce/view/user/cart_list.dart';
 import 'package:go_router/go_router.dart';
 
 // import your screens here
-
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 final GoRouter router = GoRouter(
+  navigatorKey: navigatorKey,
   initialLocation: '/splash',
   routes: [
     GoRoute(
@@ -42,7 +44,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/home',
       builder: (context, state) => const Home(),
-       routes: [
+      routes: [
         GoRoute(
           path: 'cart',
           builder: (context, state) => CartList(),
@@ -62,7 +64,7 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/order',
-      builder: (context, state) => const Orders(),
+      builder: (context, state) => const OrdersPage(),
     ),
     GoRoute(
       path: '/wishlist',

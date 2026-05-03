@@ -7,11 +7,12 @@ part of 'dress.dart';
 // **************************************************************************
 
 Dress _$DressFromJson(Map<String, dynamic> json) => Dress(
+      json['_id'] as String?,
       json['body'] as String?,
       json['countInStock'] as num?,
       json['image'] as String?,
       json['title'] as String?,
-      json['price'] as String?,
+      (json['price'] as num?)?.toDouble(),
       json['favourite'] as bool? ?? false,
       (json['rating'] as num?)?.toDouble(),
       $enumDecodeNullable(_$SizesEnumMap, json['availableSizes'],
@@ -23,6 +24,7 @@ Dress _$DressFromJson(Map<String, dynamic> json) => Dress(
     );
 
 Map<String, dynamic> _$DressToJson(Dress instance) => <String, dynamic>{
+      '_id': instance.id,
       'title': instance.title,
       'category': _$CategoryEnumMap[instance.category],
       'image': instance.image,

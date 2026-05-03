@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ecommerce/models/auth_request.dart';
+import 'package:flutter_firebase_ecommerce/providers/user_provider.dart';
 import 'package:flutter_firebase_ecommerce/repository/auth_repository.dart';
 import 'package:flutter_firebase_ecommerce/resources/colors.dart';
 import 'package:flutter_firebase_ecommerce/view/widgets/debug_print.dart';
@@ -11,35 +12,23 @@ import 'package:flutter_firebase_ecommerce/view/widgets/font.dart';
 import 'package:flutter_firebase_ecommerce/view/widgets/toast.dart';
 import 'package:flutter_firebase_ecommerce/view_model/firebase/user_data_handle.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginWithEmail extends StatefulWidget {
+class LoginWithEmail extends ConsumerStatefulWidget {
   const LoginWithEmail({super.key});
 
   @override
-  State<LoginWithEmail> createState() => _LoginWithEmailState();
+  ConsumerState<LoginWithEmail> createState() => _LoginWithEmailState();
 }
 
-class _LoginWithEmailState extends State<LoginWithEmail> {
+class _LoginWithEmailState extends ConsumerState<LoginWithEmail> {
   bool isChecked = false;
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
   FocusNode emailNode = FocusNode();
   FocusNode passwordNode = FocusNode();
-  void signInAnonymously() async {
-    try {
-      final userCredential = await FirebaseAuth.instance.signInAnonymously();
-      DebugPrint("Signed in with temporary account.   $userCredential");
-    } on FirebaseAuthException catch (e) {
-      switch (e.code) {
-        case "operation-not-allowed":
-          DebugPrint("Anonymous auth hasn't been enabled for this project.");
-          break;
-        default:
-          DebugPrint('Unknown error');
-      }
-    }
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -174,6 +163,7 @@ class _LoginWithEmailState extends State<LoginWithEmail> {
                                   var data = jsonDecode(value);
                                   print(data);
                                   if (data['user'] != null) {
+                                    ref.read(userProvider.notifier).setUser(data['user']);
                                     context.go('/home');
                                   }
                                 });

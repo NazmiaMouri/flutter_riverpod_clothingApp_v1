@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_firebase_ecommerce/network/cookie_manager.dart';
 import 'package:flutter_firebase_ecommerce/resources/colors.dart';
 import 'package:flutter_firebase_ecommerce/routes/go_routes.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'firebase_options.dart';
@@ -19,7 +20,7 @@ void main() async {
     statusBarColor: Colors.transparent,
   ));
 
-  runApp(const MyApp());
+  runApp(ProviderScope(child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {

@@ -15,3 +15,18 @@ enum Category {
   suit,
   pant,
 }
+
+@JsonEnum()
+enum OrderStatus {
+  @JsonValue('pending')
+  pending,
+
+  @JsonValue('shipped')
+  shipped,
+
+  @JsonValue('delivered')
+  delivered,
+
+  @JsonValue('cancelled')
+  cancelled,
+}

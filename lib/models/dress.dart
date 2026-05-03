@@ -6,6 +6,8 @@ part 'dress.g.dart';
 
 @JsonSerializable()
 class Dress {
+  @JsonKey(name: '_id')
+  String? id;
   String? title;
   Category? category;
   String? image;
@@ -13,14 +15,24 @@ class Dress {
   num? countInStock;
   @JsonKey(defaultValue: false)
   final bool favourite;
-  String? price;
+  double? price;
   double? rating;
   @JsonKey(name: 'availableSizes', unknownEnumValue: Sizes.medium)
   Sizes? size;
   List<Review>? reviews;
 
-  Dress(this.body, this.countInStock, this.image, this.title, this.price,
-      this.favourite, this.rating, this.size, this.reviews, this.category);
+  Dress(
+      this.id,
+      this.body,
+      this.countInStock,
+      this.image,
+      this.title,
+      this.price,
+      this.favourite,
+      this.rating,
+      this.size,
+      this.reviews,
+      this.category);
 
   factory Dress.fromJson(Map<String, dynamic> json) => _$DressFromJson(json);
 

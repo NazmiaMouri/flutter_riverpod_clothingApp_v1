@@ -1,23 +1,29 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_ecommerce/models/cart.dart';
 import 'package:flutter_firebase_ecommerce/models/dress.dart';
 import 'package:flutter_firebase_ecommerce/models/rating.dart';
+import 'package:flutter_firebase_ecommerce/providers/user_provider.dart';
+import 'package:flutter_firebase_ecommerce/repository/order_repository.dart';
 import 'package:flutter_firebase_ecommerce/repository/product_repository.dart';
 import 'package:flutter_firebase_ecommerce/resources/colors.dart';
 import 'package:flutter_firebase_ecommerce/resources/enums.dart';
 import 'package:flutter_firebase_ecommerce/view/widgets/filled_button.dart';
+import 'package:flutter_firebase_ecommerce/view/widgets/toast_service.dart';
 import 'package:go_router/go_router.dart';
 
-class ViewProductDetail extends StatefulWidget {
+class ViewProductDetail extends ConsumerStatefulWidget {
   final Dress dress;
   const ViewProductDetail({super.key, required this.dress});
 
   @override
-  State<ViewProductDetail> createState() => _ViewProductDetailState();
+  ConsumerState<ViewProductDetail> createState() => _ViewProductDetailState();
 }
 
-class _ViewProductDetailState extends State<ViewProductDetail> {
+class _ViewProductDetailState extends ConsumerState<ViewProductDetail> {
   List<Rating> ratingStar = [
     Rating(),
     Rating(),
@@ -276,7 +282,28 @@ class _ViewProductDetailState extends State<ViewProductDetail> {
                                     context: context,
                                     buttonName: 'ADD TO CART',
                                     buttonColour: Colors.black,
-                                    buttonAction: () => context.push('/home')),
+                                    buttonAction: () {
+                                      print(jsonEncode(dress));
+                                      orderRepo
+                                          .addCartItem(Cart(
+                                        product: dress,
+                                        quantity: quantity,
+                                      ))
+                                          .then((_) {
+                                        ToastService.showSuccess(
+                                            'Item added to cart');
+
+                                        ref
+                                            .read(userProvider.notifier)
+                                            .addCartItems(Cart(
+                                              product: dress,
+                                              quantity: quantity,
+                                            ));
+                                      }).catchError((error) {
+                                        ToastService.showError(
+                                            'Failed to add item to cart');
+                                      });
+                                    }),
                               )
                             ],
                           ),

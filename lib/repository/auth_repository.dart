@@ -2,8 +2,10 @@ import 'package:flutter_firebase_ecommerce/models/auth_request.dart';
 import 'package:flutter_firebase_ecommerce/models/dress.dart';
 import 'package:flutter_firebase_ecommerce/models/user.dart';
 import 'package:flutter_firebase_ecommerce/network/api_client.dart';
+import 'package:flutter_firebase_ecommerce/network/cookie_manager.dart';
 import 'package:flutter_firebase_ecommerce/network/header_requesttime.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRepository {
   late RestClient _apiRequest;
@@ -26,7 +28,11 @@ class AuthRepository {
     return _apiRequest.login(loginRequest);
   }
 
-  Future<void> logout() {
+  Future<void> logout() async {
+    await CookieManager.instance.clearCookie();
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
     return _apiRequest.logout();
   }
 }

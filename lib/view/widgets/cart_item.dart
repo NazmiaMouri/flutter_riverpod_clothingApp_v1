@@ -1,7 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_ecommerce/models/cart.dart';
+import 'package:flutter_firebase_ecommerce/resources/extensions.dart';
 
 class CartItem extends StatefulWidget {
-  const CartItem({super.key});
+  final Cart cartItem;
+  final VoidCallback onselection;
+  const CartItem({super.key, required this.cartItem, required this.onselection});
   @override
   State<CartItem> createState() => _CartItemState();
 }
@@ -9,8 +15,17 @@ class CartItem extends StatefulWidget {
 class _CartItemState extends State<CartItem> {
   bool isChecked = false;
   int quantity = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    quantity = widget.cartItem.quantity ?? 1;
+  }
+
   @override
   Widget build(BuildContext context) {
+    print('=============================Cart Item:');
+    print(jsonEncode(widget.cartItem));
     return Container(
       height: 100,
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -33,6 +48,7 @@ class _CartItemState extends State<CartItem> {
               setState(() {
                 isChecked = value!;
               });
+              widget.onselection();
             },
           ),
           Container(
@@ -40,20 +56,23 @@ class _CartItemState extends State<CartItem> {
             width: 120,
             height: 90,
           ),
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Product Name',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              Text('Size: M'),
-              Text('\$100.00', style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(widget.cartItem.product?.title ?? '',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(widget.cartItem.product?.size?.code ?? ''),
+              Text('\$${widget.cartItem.product?.price ?? 'Price is missing'}',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
             ],
           ),
           Container(
             height: 25,
             decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey[200]!,),
+                border: Border.all(
+                  color: Colors.grey[200]!,
+                ),
                 borderRadius: const BorderRadius.all(Radius.circular(20))),
             child: IntrinsicHeight(
               child: Row(
@@ -71,7 +90,7 @@ class _CartItemState extends State<CartItem> {
                       ),
                     ),
                   ),
-                   VerticalDivider(
+                  VerticalDivider(
                     width: 0,
                     thickness: 1,
                     indent: 0,
@@ -85,7 +104,7 @@ class _CartItemState extends State<CartItem> {
                       style: const TextStyle(fontSize: 16),
                     ),
                   ),
-                   VerticalDivider(
+                  VerticalDivider(
                     width: 0,
                     thickness: 1,
                     indent: 0,

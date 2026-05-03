@@ -20,7 +20,7 @@ class CookieManager extends Interceptor {
         _saveCookie(cookie);
       }
     } else if (response.statusCode == 401) {
-      _clearCookie();
+      clearCookie();
     }
     super.onResponse(response, handler);
   }
@@ -28,14 +28,16 @@ class CookieManager extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     if (err.response != null && err.response!.statusCode == 401) {
-      _clearCookie();
+      clearCookie();
     }
     handler.next(err);
   }
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    options.headers['Cookie'] = _cookie;
+    if (_cookie != null) {
+      options.headers['Cookie'] = _cookie;
+    }
     return super.onRequest(options, handler);
   }
 
@@ -52,7 +54,7 @@ class CookieManager extends Interceptor {
     }
   }
 
-  void _clearCookie() async {
+  Future<void> clearCookie() async {
     _cookie = null;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('cookie');

@@ -21,7 +21,6 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
   FocusNode userNameNode = FocusNode();
   FocusNode phoneNumberNode = FocusNode();
   FocusNode emailNode = FocusNode();
@@ -208,16 +207,8 @@ class _RegisterState extends State<Register> {
                       ShowToast.errorToast(
                           'Password and confirm password is not identical');
                     }
-                  } on FirebaseAuthException catch (e) {
-                    if (e.code == 'weak-password') {
-                      ShowToast.errorToast(
-                          'Password should be at least 6 characters');
-                    } else if (e.code == 'email-already-in-use') {
-                      ShowToast.errorToast(
-                          'The account already exists for that email.');
-                    }
-                  } catch (e) {
-                    print(e);
+                  }catch (e) {
+                    ShowToast.errorToast(e.toString());
                   }
                 }, // your tap handler moved here
                 builder: (BuildContext context, TapDebouncerFunc? onTap) {
