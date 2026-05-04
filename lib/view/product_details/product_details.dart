@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter_firebase_ecommerce/view/widgets/debug_print.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:convert';
 import 'dart:ffi';
@@ -289,7 +291,8 @@ class _ViewProductDetailState extends ConsumerState<ViewProductDetail> {
                                         product: dress,
                                         quantity: quantity,
                                       ))
-                                          .then((_) {
+                                          .then((res) {
+                                            print('Item added to cart successfully');
                                         ToastService.showSuccess(
                                             'Item added to cart');
 
@@ -300,6 +303,8 @@ class _ViewProductDetailState extends ConsumerState<ViewProductDetail> {
                                               quantity: quantity,
                                             ));
                                       }).catchError((error) {
+                                        print(error);
+                                        DebugPrint('Add to cart error: $error');
                                         ToastService.showError(
                                             'Failed to add item to cart');
                                       });
@@ -319,4 +324,4 @@ class _ViewProductDetailState extends ConsumerState<ViewProductDetail> {
   }
 }
 
-mixin favourite {}
+

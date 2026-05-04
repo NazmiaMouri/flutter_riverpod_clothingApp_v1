@@ -25,6 +25,7 @@ class UserController extends StateNotifier<User?> {
 
   // 🔹 update user cart safely
   void addCartItems(Cart cartItem) {
+    print(cartItem);
     if (state != null) {
       final updatedUser = state!.copyWith(
         cart: [...(state!.cart ?? []), cartItem],

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ecommerce/models/auth_request.dart';
+import 'package:flutter_firebase_ecommerce/models/user.dart' as UserModel;
 import 'package:flutter_firebase_ecommerce/providers/user_provider.dart';
 import 'package:flutter_firebase_ecommerce/repository/auth_repository.dart';
 import 'package:flutter_firebase_ecommerce/resources/colors.dart';
@@ -160,33 +161,14 @@ class _LoginWithEmailState extends ConsumerState<LoginWithEmail> {
                                 LoginRequest loginRequest = LoginRequest(
                                     email: email.text, password: password.text);
                                 authRepo.login(loginRequest).then((value) {
-                                  var data = jsonDecode(value);
+                                  UserModel.User data = UserModel.User.fromJson(jsonDecode(value));
                                   print(data);
-                                  if (data['user'] != null) {
-                                    ref.read(userProvider.notifier).setUser(data['user']);
+                                  if (data.id != null) {
+                                    ref.read(userProvider.notifier).setUser(data);
                                     context.go('/home');
                                   }
                                 });
-                                //   buttonAction: () async {
-                                //     try {
-                                //       final credential = await FirebaseAuth.instance
-                                //           .signInWithEmailAndPassword(email: email.text, password: password.text);
-                                //       if (!context.mounted) return;
-                                //       getUserDetail(email.text);
-                                //       Navigator.pushNamed(context, '/home');
-                                //     } on FirebaseAuthException catch (e) {
-                                //       DebugPrint(e.code);
-                                //       if (e.code == 'user-not-found') {
-                                //         ShowToast.errorToast('No user found for that email.');
-                                //       } else if (e.code == 'wrong-password') {
-                                //         ShowToast.errorToast('Wrong password provided for that user.');
-                                //       } else if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
-                                //         ShowToast.errorToast('INVALID LOGIN CREDENTIALS');
-                                //       }
-                                //     }
-                                //   },
-                                // ),
-                              })),
+                                                              })),
                     ),
                     SizedBox(
                       height: 10,

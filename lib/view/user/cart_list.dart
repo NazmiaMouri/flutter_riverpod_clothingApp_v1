@@ -66,6 +66,7 @@ class _CartListState extends ConsumerState<CartList> {
                 ? const Center(child: Text("Cart is empty"))
                 : ListView.builder(
                     shrinkWrap: true,
+                     physics: NeverScrollableScrollPhysics(), // ✅
                     itemCount: cartList.length,
                     itemBuilder: (context, index) {
                       return CartItem(cartItem: cartList[index], onselection:(){
